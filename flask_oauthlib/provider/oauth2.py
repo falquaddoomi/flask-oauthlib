@@ -395,11 +395,11 @@ class OAuth2Provider(object):
                 except oauth2.OAuth2Error as e:
                     log.debug('OAuth2Error: %r', e)
                     return redirect(e.in_uri(redirect_uri))
-                except Exception as e:
-                    log.warning('Exception caught while processing request, %s.' % e)
-                    return redirect(add_params_to_uri(
-                        self.error_uri, {'error': str(e) }
-                    ))
+                # except Exception as e:
+                #     log.warning('Exception caught while processing request, %s.' % e)
+                #     return redirect(add_params_to_uri(
+                #         self.error_uri, {'error': str(e) }
+                #     ))
 
             else:
                 redirect_uri = request.values.get(
@@ -414,11 +414,11 @@ class OAuth2Provider(object):
             except oauth2.OAuth2Error as e:
                 log.debug('OAuth2Error: %r', e)
                 return redirect(e.in_uri(redirect_uri))
-            except Exception as e:
-                log.warning('Exception caught while processing request, %s.' % e)
-                return redirect(add_params_to_uri(
-                    self.error_uri, {'error': str(e) }
-                ))
+            # except Exception as e:
+            #     log.warning('Exception caught while processing request, %s.' % e)
+            #     return redirect(add_params_to_uri(
+            #         self.error_uri, {'error': str(e) }
+            #     ))
 
 
             if not isinstance(rv, bool):
@@ -459,11 +459,11 @@ class OAuth2Provider(object):
         except oauth2.OAuth2Error as e:
             log.debug('OAuth2Error: %r', e)
             return redirect(e.in_uri(redirect_uri or self.error_uri))
-        except Exception as e:
-            log.warning('Exception caught while processing request, %s.' % e)
-            return redirect(add_params_to_uri(
-                self.error_uri, {'error': str(e) }
-            ))
+        # except Exception as e:
+        #     log.warning('Exception caught while processing request, %s.' % e)
+        #     return redirect(add_params_to_uri(
+        #         self.error_uri, {'error': str(e) }
+        #     ))
 
 
     def verify_request(self, scopes):
@@ -621,14 +621,14 @@ class OAuth2RequestValidator(RequestValidator):
         auth = request.headers.get('Authorization', None)
         log.debug('Authenticate client %r', auth)
         if auth:
-            try:
-                _, s = auth.split(' ')
-                client_id, client_secret = decode_base64(s).split(':')
-                client_id = to_unicode(client_id, 'utf-8')
-                client_secret = to_unicode(client_secret, 'utf-8')
-            except Exception as e:
-                log.debug('Authenticate client failed with exception: %r', e)
-                return False
+            # try:
+            _, s = auth.split(' ')
+            client_id, client_secret = decode_base64(s).split(':')
+            client_id = to_unicode(client_id, 'utf-8')
+            client_secret = to_unicode(client_secret, 'utf-8')
+            # except Exception as e:
+            #     log.debug('Authenticate client failed with exception: %r', e)
+            #     return False
         else:
             client_id = request.client_id
             client_secret = request.client_secret
@@ -859,7 +859,7 @@ class OAuth2RequestValidator(RequestValidator):
             'authorization_code', 'password',
             'client_credentials', 'refresh_token',
         )
-        
+
         # Grant type is allowed if it is part of the 'allowed_grant_types'
         # of the selected client or if it is one of the default grant types
         if hasattr(client, 'allowed_grant_types'):
